@@ -15,8 +15,8 @@ var buttonGapSize: CGFloat = (UIScreen.main.bounds.height > UIScreen.main.bounds
     (UIScreen.main.bounds.width / 50) :
     (UIScreen.main.bounds.height / 50)
 var buttonSize: CGFloat = (UIScreen.main.bounds.height > UIScreen.main.bounds.width) ?
-    ((UIScreen.main.bounds.width - 4 * buttonGapSize) / 7):
-    ((UIScreen.main.bounds.height - 4 * buttonGapSize) / 7)
+    ((UIScreen.main.bounds.width - 4 * buttonGapSize) / 5):
+    ((UIScreen.main.bounds.height - 4 * buttonGapSize) / 5)
 
 var controlPanelWidth = 4 * buttonSize + 3 * buttonGapSize
 
@@ -51,12 +51,14 @@ struct ControlPanel: View {
     
     private let BGOrange = Color(hex: 0xff9f06)
     private let BGHoverOrange = Color(hex: 0xfcc88d)
+    private let BGRed = Color(.red)
     
     private let FGWhite = Color(.white)
     private let FGBlack = Color(.black)
     
     // the operator that is selected. nil if not selecting
     @State private var selectedOperator: ButtonType? = nil
+    @State private var showModal = false
     
     // callback function for buttons on click
     private func onButtonClick(_ buttonType: ButtonType) -> Void {
@@ -69,6 +71,10 @@ struct ControlPanel: View {
             break
         }
         self.clickCallback?(buttonType)
+    }
+    
+    private func onModalClick(_ buttonType: ButtonType) -> Void {
+        showModal = true
     }
     
     var body: some View {
@@ -103,6 +109,19 @@ struct ControlPanel: View {
                 CalculatorButton(text: ".", BG: BGDarkGray, FG: FGWhite, BGHover: BGHoverDarkGray, operatorType: ButtonType.Dot, selectedOperator: $selectedOperator, callback: onButtonClick)
                 CalculatorButton(image: Image(systemName: "equal"), BG: BGOrange, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onButtonClick)
             }
+            HStack(spacing: buttonGapSize) {
+                //TODO this needs to be the settings button
+                CalculatorButton(image: Image(systemName: "gear"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+                //TODO This needs to be the history button
+                CalculatorButton(image: Image(systemName: "clock.arrow.circlepath"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+                CalculatorButton(image: Image(systemName: "ellipsis"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+                //TODO This needs to handle deleting
+                CalculatorButton(image: Image(systemName: "delete.backward"), BG: BGRed, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+            }
+        }
+        .sheet(isPresented: $showModal) {
+            ModalCalcs(isPresented: $showModal)
+                .presentationDetents([.medium, .large])
         }
     }
 }

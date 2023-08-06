@@ -19,6 +19,7 @@
 		14BF4D49245957EE0091F8F7 /* DisplayArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF4D48245957EE0091F8F7 /* DisplayArea.swift */; };
 		14BF4D4B245958020091F8F7 /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF4D4A245958020091F8F7 /* ControlPanel.swift */; };
 		14BF4D51245C5F460091F8F7 /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */; };
+		4BAC0DF02A800B7400AB8808 /* ModalCalcs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		14BF4D4A245958020091F8F7 /* ControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanel.swift; sourceTree = "<group>"; };
 		14BF4D4F245A6E190091F8F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
+		4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalCalcs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				14BF4D4A245958020091F8F7 /* ControlPanel.swift */,
 				14BF4D462459562B0091F8F7 /* CalculatorButton.swift */,
 				14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */,
+				4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				14B61F732454712300FDC5A2 /* ContentView.swift in Sources */,
 				14BF4D49245957EE0091F8F7 /* DisplayArea.swift in Sources */,
 				14BF4D472459562B0091F8F7 /* CalculatorButton.swift in Sources */,
+				4BAC0DF02A800B7400AB8808 /* ModalCalcs.swift in Sources */,
 				14BF4D51245C5F460091F8F7 /* CalculatorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,7 +392,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -442,7 +446,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -467,8 +471,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = bofei.Calculator;
 				PRODUCT_NAME = "Calculator Native";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -487,8 +494,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = bofei.Calculator;
 				PRODUCT_NAME = "Calculator Native";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

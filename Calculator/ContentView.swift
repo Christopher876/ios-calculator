@@ -83,9 +83,7 @@ struct CalculatorView: View {
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
-            VStack(alignment: .trailing, spacing: 30.0){
-                Spacer()
-                Spacer()
+            VStack(alignment: .trailing){
                 DisplayArea(eventCallback: onDisplayAreaClick, currentDisplay: $currentDisplay, isPresentingPopover: $isPresentingPopover)
                     .frame(maxWidth: controlPanelWidth, alignment: .trailing)
                     .padding(.trailing)
@@ -108,8 +106,9 @@ struct CalculatorView: View {
                                 self.isDraggingHandled = false
                             })
                 )
-                ControlPanel(clickCallback: onControlPanelClick).padding(.bottom)
                 Spacer()
+                ControlPanel(clickCallback: onControlPanelClick).padding(.bottom)
+//                Spacer()
             }
         }
     }

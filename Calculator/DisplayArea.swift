@@ -20,6 +20,7 @@ struct DisplayArea: View {
     
     // bindind display text from calculator
     @Binding var currentDisplay: String
+    @Binding var currentExpression: String
     
     @Binding var isPresentingPopover: Bool
     
@@ -58,6 +59,10 @@ struct DisplayArea: View {
         }
         .id(UUID.init())
         .frame(minHeight: 120)
+        
+        Text(currentExpression)
+            .foregroundColor(Color.white)
+            .font(.system(size: fontSize / 3))
     }
 }
 

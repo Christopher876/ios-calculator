@@ -12,6 +12,7 @@ import SwiftUI
 // there are 2 units of space above the calculator and 1 unit of space below
 struct CalculatorView: View {
     @State var currentDisplay = "0"
+    @State var currentExpression = ""
     
     @State private var calculator = CalculatorModel()
     
@@ -46,37 +47,54 @@ struct CalculatorView: View {
         switch keyType {
         case .Plus, .Minus, .Multiply, .Divide:
             calculator.onSelectOperator(keyType)
+            currentExpression += "\(keyType.symbol)"
         case .Number0:
             calculator.onTypeNumber(0)
+            currentExpression += "\(keyType.symbol)"
         case .Number1:
             calculator.onTypeNumber(1)
+            currentExpression += "\(keyType.symbol)"
         case .Number2:
             calculator.onTypeNumber(2)
+            currentExpression += "\(keyType.symbol)"
         case .Number3:
             calculator.onTypeNumber(3)
+            currentExpression += "\(keyType.symbol)"
         case .Number4:
             calculator.onTypeNumber(4)
+            currentExpression += "\(keyType.symbol)"
         case .Number5:
             calculator.onTypeNumber(5)
+            currentExpression += "\(keyType.symbol)"
         case .Number6:
             calculator.onTypeNumber(6)
+            currentExpression += "\(keyType.symbol)"
         case .Number7:
             calculator.onTypeNumber(7)
+            currentExpression += "\(keyType.symbol)"
         case .Number8:
             calculator.onTypeNumber(8)
+            currentExpression += "\(keyType.symbol)"
         case .Number9:
             calculator.onTypeNumber(9)
+            currentExpression += "\(keyType.symbol)"
         case .Dot:
             calculator.onTypeDot()
+            currentExpression += "\(keyType.symbol)"
         case .Calculate:
             calculator.onCalculate()
         case .AC:
             calculator.onAC()
+            currentExpression = ""
         case .PlusMinus:
             calculator.onPlusMinus()
         case .Percentage:
             calculator.onPercentage()
+        case .Delete:
+            calculator.onDeleteOperator()
+            currentExpression = calculator.expression
         }
+        calculator.onCalculate()
         currentDisplay = calculator.displayedValue
     }
     
@@ -84,7 +102,7 @@ struct CalculatorView: View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             VStack(alignment: .trailing){
-                DisplayArea(eventCallback: onDisplayAreaClick, currentDisplay: $currentDisplay, isPresentingPopover: $isPresentingPopover)
+                DisplayArea(eventCallback: onDisplayAreaClick, currentDisplay: $currentDisplay, currentExpression: $currentExpression, isPresentingPopover: $isPresentingPopover)
                     .frame(maxWidth: controlPanelWidth, alignment: .trailing)
                     .padding(.trailing)
                     .frame(maxWidth: controlPanelWidth)
@@ -118,6 +136,7 @@ struct CalculatorView: View {
 struct ContentView: View {
     var body: some View {
         CalculatorView()
+            .statusBarHidden()
     }
 }
 

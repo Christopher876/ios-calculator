@@ -29,6 +29,32 @@ enum ButtonType {
     case AC
     case PlusMinus
     case Percentage
+    case Delete
+    
+    var symbol: String {
+        switch self {
+            case .Plus: return "+"
+            case .Minus: return "-"
+            case .Multiply: return "*"
+            case .Divide: return "/"
+            case .Number0: return "0"
+            case .Number1: return "1"
+            case .Number2: return "2"
+            case .Number3: return "3"
+            case .Number4: return "4"
+            case .Number5: return "5"
+            case .Number6: return "6"
+            case .Number7: return "7"
+            case .Number8: return "8"
+            case .Number9: return "9"
+            case .Dot: return "."
+            case .Calculate: return "="
+            case .AC: return "AC"
+            case .PlusMinus: return "+/-"
+            case .Percentage: return "%"
+            case .Delete: return ""
+        }
+    }
 }
 
 struct CalculatorButton: View {

@@ -15,8 +15,8 @@ var buttonGapSize: CGFloat = (UIScreen.main.bounds.height > UIScreen.main.bounds
     (UIScreen.main.bounds.width / 50) :
     (UIScreen.main.bounds.height / 50)
 var buttonSize: CGFloat = (UIScreen.main.bounds.height > UIScreen.main.bounds.width) ?
-    ((UIScreen.main.bounds.width - 4 * buttonGapSize) / 5):
-    ((UIScreen.main.bounds.height - 4 * buttonGapSize) / 5)
+((UIScreen.main.bounds.width - 4 * buttonGapSize) / 4.5):
+((UIScreen.main.bounds.height - 4 * buttonGapSize) / 4.5)
 
 var controlPanelWidth = 4 * buttonSize + 3 * buttonGapSize
 
@@ -116,7 +116,7 @@ struct ControlPanel: View {
                 CalculatorButton(image: Image(systemName: "clock.arrow.circlepath"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
                 CalculatorButton(image: Image(systemName: "ellipsis"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
                 //TODO This needs to handle deleting
-                CalculatorButton(image: Image(systemName: "delete.backward"), BG: BGRed, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+                CalculatorButton(image: Image(systemName: "delete.backward"), BG: BGRed, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Delete, selectedOperator: $selectedOperator, callback: onButtonClick)
             }
         }
         .sheet(isPresented: $showModal) {

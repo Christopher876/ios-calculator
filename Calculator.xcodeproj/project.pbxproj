@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,7 @@
 		14BF4D4B245958020091F8F7 /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF4D4A245958020091F8F7 /* ControlPanel.swift */; };
 		14BF4D51245C5F460091F8F7 /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */; };
 		4BAC0DF02A800B7400AB8808 /* ModalCalcs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */; };
+		4BAC0DF72A804BF600AB8808 /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = 4BAC0DF62A804BF600AB8808 /* Expression */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BAC0DF72A804BF600AB8808 /* Expression in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +172,7 @@
 			);
 			name = Calculator;
 			packageProductDependencies = (
+				4BAC0DF62A804BF600AB8808 /* Expression */,
 			);
 			productName = Calculator;
 			productReference = 14B61F6B2454712300FDC5A2 /* Calculator Native.app */;
@@ -244,6 +247,7 @@
 			);
 			mainGroup = 14B61F622454712300FDC5A2;
 			packageReferences = (
+				4BAC0DF52A804BF600AB8808 /* XCRemoteSwiftPackageReference "Expression" */,
 			);
 			productRefGroup = 14B61F6C2454712300FDC5A2 /* Products */;
 			projectDirPath = "";
@@ -462,14 +466,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Calculator/Preview Content\"";
-				DEVELOPMENT_TEAM = 87K4ZVCTRA;
+				DEVELOPMENT_TEAM = MMG7BQ56QY;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Calculator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bofei.Calculator;
+				PRODUCT_BUNDLE_IDENTIFIER = christopherw.Calculator;
 				PRODUCT_NAME = "Calculator Native";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -485,14 +489,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Calculator/Preview Content\"";
-				DEVELOPMENT_TEAM = 87K4ZVCTRA;
+				DEVELOPMENT_TEAM = MMG7BQ56QY;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Calculator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bofei.Calculator;
+				PRODUCT_BUNDLE_IDENTIFIER = christopherw.Calculator;
 				PRODUCT_NAME = "Calculator Native";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -622,6 +626,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4BAC0DF52A804BF600AB8808 /* XCRemoteSwiftPackageReference "Expression" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/Expression#installation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4BAC0DF62A804BF600AB8808 /* Expression */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4BAC0DF52A804BF600AB8808 /* XCRemoteSwiftPackageReference "Expression" */;
+			productName = Expression;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 14B61F632454712300FDC5A2 /* Project object */;
 }

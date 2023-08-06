@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import Expression
 
 struct CalculatorModel {
+    public var expression: String = ""
     private var selectedOperator: ButtonType? = nil
     private var ans: Double = 0
     private var inputs: String =  ""
@@ -31,38 +33,42 @@ struct CalculatorModel {
     }
     
     var displayedValue: String {
+//        get {
+//            if isError && inputs.isEmpty {
+//                return "Error"
+//            } else if !inputs.isEmpty {
+//                var parsedInputs = Double(inputs) ?? 0
+//                guard parsedInputs != 0 else {
+//                    // e.g. -0.00003
+//                    if isNegative {
+//                        return "-" + inputs
+//                    } else {
+//                        return inputs
+//                    }
+//                }
+//                if isNegative {
+//                    parsedInputs.negate()
+//                }
+//                var formattedInputs = decimalFormatter.string(from: NSNumber(value: parsedInputs)) ?? "0"
+//                if inputs.last == "." {
+//                    formattedInputs += "."
+//                }
+//                return formattedInputs
+//            } else if inputs.isEmpty && isNegative {
+//                return "-0"
+//            } else if ans != 0 {
+//                if abs(ans) < formatterUpperBreakPoint && abs(ans) > formatterLowerBreakPoint {
+//                    return decimalFormatter.string(from: NSNumber(value: ans)) ?? "0"
+//                } else {
+//                    return scientificFormatter.string(from: NSNumber(value: ans)) ?? "0"
+//                }
+//            } else {
+//                return "0"
+//            }
+//        }
         get {
-            if isError && inputs.isEmpty {
-                return "Error"
-            } else if !inputs.isEmpty {
-                var parsedInputs = Double(inputs) ?? 0
-                guard parsedInputs != 0 else {
-                    // e.g. -0.00003
-                    if isNegative {
-                        return "-" + inputs
-                    } else {
-                        return inputs
-                    }
-                }
-                if isNegative {
-                    parsedInputs.negate()
-                }
-                var formattedInputs = decimalFormatter.string(from: NSNumber(value: parsedInputs)) ?? "0"
-                if inputs.last == "." {
-                    formattedInputs += "."
-                }
-                return formattedInputs
-            } else if inputs.isEmpty && isNegative {
-                return "-0"
-            } else if ans != 0 {
-                if abs(ans) < formatterUpperBreakPoint && abs(ans) > formatterLowerBreakPoint {
-                    return decimalFormatter.string(from: NSNumber(value: ans)) ?? "0"
-                } else {
-                    return scientificFormatter.string(from: NSNumber(value: ans)) ?? "0"
-                }
-            } else {
-                return "0"
-            }
+            let number = NSNumber(value: ans).stringValue
+            return String(number)
         }
     }
     
@@ -85,6 +91,7 @@ struct CalculatorModel {
         } else {
             inputs.append(String(number))
         }
+        self.expression += String(number)
     }
     
     mutating func onTypeDot() {
@@ -99,11 +106,13 @@ struct CalculatorModel {
         } else {
             inputs.append(".")
         }
+        expression += "."
     }
     
     mutating func onAC() {
         print("AC")
         self.ans = 0
+        self.expression = ""
         self.inputs.removeAll()
         self.selectedOperator = nil
         self.isNegative = false
@@ -111,52 +120,68 @@ struct CalculatorModel {
         self.lastInput = 0
     }
     
+    mutating func onDeleteOperator() {
+        //TODO pop the last character off
+        self.expression.popLast()
+        print("Pop: \(self.expression)")
+    }
+    
     mutating func onSelectOperator(_ selectedOperator: ButtonType) {
         print("operator", selectedOperator)
         self.selectedOperator = selectedOperator
         let inputNumber = Double(inputs) ?? 0
-        if inputNumber != 0 {
-            ans = inputNumber
-        }
+//        if inputNumber != 0 {
+//            ans = inputNumber
+//        }
+//        expression += String(format: "%f", inputNumber)
+        expression += selectedOperator.symbol
         inputs.removeAll()
     }
     
     mutating func onCalculate() {
-        print("calculate")
         var inputNumber = Double(inputs) ?? 0
         if isNegative {
             inputNumber.negate()
         }
         
         isNegative = false
-        inputs.removeAll()
+//        inputs.removeAll()
         
         lastInput = inputNumber
+        print("Last Input: \(lastInput)")
 
         guard !isError else {
             return
         }
         
-        switch selectedOperator {
-        case nil:
-            ans = lastInput
-        case .Plus:
-            ans += lastInput
-        case .Minus:
-            ans -= lastInput
-        case .Multiply:
-            ans *= lastInput
-        case .Divide:
-            guard lastInput != 0 else {
-                isError = true
-                ans = 0
-                lastInput = 0
-                return
-            }
-            ans /= lastInput
-        default:
-            break
+        print("Evaluating \(self.expression)")
+        let expression = Expression(self.expression)
+        do {
+            ans = try expression.evaluate()
+            print("Answer: \(ans)")
+        } catch {
+            print("Failed to evaluate")
         }
+//        switch selectedOperator {
+//        case nil:
+//            ans = lastInput
+//        case .Plus:
+//            ans += lastInput
+//        case .Minus:
+//            ans -= lastInput
+//        case .Multiply:
+//            ans *= lastInput
+//        case .Divide:
+//            guard lastInput != 0 else {
+//                isError = true
+//                ans = 0
+//                lastInput = 0
+//                return
+//            }
+//            ans /= lastInput
+//        default:
+//            break
+//        }
     }
     
     mutating func onPlusMinus() {

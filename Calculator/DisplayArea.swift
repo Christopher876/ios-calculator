@@ -41,6 +41,8 @@ struct DisplayArea: View {
     
     var body: some View {
         Text(currentDisplay)
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
             .foregroundColor(Color.white)
             .font(.system(size: fontSize))
             .contextMenu {

@@ -32,45 +32,15 @@ struct CalculatorModel {
         scientificFormatter.maximumSignificantDigits = maxInput + 1
     }
     
+    var displayedExpression: String {
+        return self.expression.joined()
+    }
+    
     var displayedValue: String {
-//        get {
-//            if isError && inputs.isEmpty {
-//                return "Error"
-//            } else if !inputs.isEmpty {
-//                var parsedInputs = Double(inputs) ?? 0
-//                guard parsedInputs != 0 else {
-//                    // e.g. -0.00003
-//                    if isNegative {
-//                        return "-" + inputs
-//                    } else {
-//                        return inputs
-//                    }
-//                }
-//                if isNegative {
-//                    parsedInputs.negate()
-//                }
-//                var formattedInputs = decimalFormatter.string(from: NSNumber(value: parsedInputs)) ?? "0"
-//                if inputs.last == "." {
-//                    formattedInputs += "."
-//                }
-//                return formattedInputs
-//            } else if inputs.isEmpty && isNegative {
-//                return "-0"
-//            } else if ans != 0 {
-//                if abs(ans) < formatterUpperBreakPoint && abs(ans) > formatterLowerBreakPoint {
-//                    return decimalFormatter.string(from: NSNumber(value: ans)) ?? "0"
-//                } else {
-//                    return scientificFormatter.string(from: NSNumber(value: ans)) ?? "0"
-//                }
-//            } else {
-//                return "0"
-//            }
-//        }
         get {
-            if self.expression.joined() == "" {
-                return NSNumber(value: 0).stringValue
-            }
-            return NSNumber(value: ans).stringValue
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            return numberFormatter.string(from: NSNumber(value: ans)) ?? "0"
         }
     }
     
@@ -160,14 +130,6 @@ struct CalculatorModel {
         self.expression.append(NSNumber(value: ans).stringValue)
     }
     
-    mutating func onLeftParenthesis() {
-        
-    }
-    
-    mutating func onRightParenthesis() {
-        
-    }
-    
     mutating func onCalculate() {
         var inputNumber = Double(inputs) ?? 0
         if isNegative {
@@ -235,18 +197,23 @@ struct CalculatorModel {
     
     mutating func onPaste(_ content: String) {
         var parsedContent: Double? = Double(content)
+        print("Content: \(parsedContent)")
         guard parsedContent != nil else {
             return
         }
-        if abs(parsedContent!) > formatterUpperBreakPoint || abs(parsedContent!) < formatterLowerBreakPoint {
-            ans = parsedContent!
-        } else {
-            if parsedContent! < 0 {
-                isNegative = true
-                parsedContent?.negate()
-            }
-            inputs = String(parsedContent!).trimmingCharacters(in: CharacterSet.init(charactersIn: ".0"))
-        }
+        
+        //TODO Do some input validation here
+        self.expression[self.expression.endIndex - 1] += content
+        print("Pasted: \(self.expression)")
+//        if abs(parsedContent!) > formatterUpperBreakPoint || abs(parsedContent!) < formatterLowerBreakPoint {
+//
+//        } else {
+//            if parsedContent! < 0 {
+//                isNegative = true
+//                parsedContent?.negate()
+//            }
+//            inputs = String(parsedContent!).trimmingCharacters(in: CharacterSet.init(charactersIn: ".0"))
+//        }
         isError = false
     }
     

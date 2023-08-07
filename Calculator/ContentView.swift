@@ -31,7 +31,9 @@ struct CalculatorView: View {
                 return
             }
             calculator.onPaste(content!)
+            calculator.onCalculate()
             currentDisplay = calculator.displayedValue
+            currentExpression = calculator.displayedExpression
         default:
             break
         }
@@ -95,6 +97,7 @@ struct CalculatorView: View {
         }
         calculator.onCalculate()
         currentExpression = calculator.expression.joined()
+        
         currentDisplay = calculator.displayedValue
     }
     

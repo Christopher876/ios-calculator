@@ -10,7 +10,7 @@ import Foundation
 import Expression
 
 struct CalculatorModel {
-    public var expression: String = ""
+    public var expression: [String] = [String]()
     private var selectedOperator: ButtonType? = nil
     private var ans: Double = 0
     private var inputs: String =  ""
@@ -67,8 +67,10 @@ struct CalculatorModel {
 //            }
 //        }
         get {
-            let number = NSNumber(value: ans).stringValue
-            return String(number)
+            if self.expression.joined() == "" {
+                return NSNumber(value: 0).stringValue
+            }
+            return NSNumber(value: ans).stringValue
         }
     }
     
@@ -91,7 +93,12 @@ struct CalculatorModel {
         } else {
             inputs.append(String(number))
         }
-        self.expression += String(number)
+        if self.expression.count == 0 {
+            self.expression.append(String(number))
+        } else {
+            self.expression[self.expression.endIndex-1] += String(number)
+        }
+//        self.expression += String(number)
     }
     
     mutating func onTypeDot() {
@@ -106,13 +113,19 @@ struct CalculatorModel {
         } else {
             inputs.append(".")
         }
-        expression += "."
+        
+        let last = self.expression.endIndex - 1
+        if self.expression.count == 0 || self.expression[last] == "" {
+            self.expression.append("0.")
+        } else {
+            self.expression[last] += "."
+        }
     }
     
     mutating func onAC() {
         print("AC")
         self.ans = 0
-        self.expression = ""
+        self.expression.removeAll()
         self.inputs.removeAll()
         self.selectedOperator = nil
         self.isNegative = false
@@ -121,21 +134,38 @@ struct CalculatorModel {
     }
     
     mutating func onDeleteOperator() {
-        //TODO pop the last character off
-        self.expression.popLast()
-        print("Pop: \(self.expression)")
+        var last = self.expression.endIndex - 1
+        if self.expression[last].count == 1 {
+            let _ = self.expression.popLast()
+            print("Popped entire element")
+        } else if self.expression[last] == "" {
+            self.expression.popLast()
+            self.expression.popLast()
+        }
+        else {
+            let _ = self.expression[last].popLast()
+            print("Popped string")
+        }
     }
     
     mutating func onSelectOperator(_ selectedOperator: ButtonType) {
-        print("operator", selectedOperator)
         self.selectedOperator = selectedOperator
-        let inputNumber = Double(inputs) ?? 0
-//        if inputNumber != 0 {
-//            ans = inputNumber
-//        }
-//        expression += String(format: "%f", inputNumber)
-        expression += selectedOperator.symbol
+        self.expression.append(selectedOperator.symbol)
+        self.expression.append("")
         inputs.removeAll()
+    }
+    
+    mutating func onEqual() {
+        self.expression.removeAll()
+        self.expression.append(NSNumber(value: ans).stringValue)
+    }
+    
+    mutating func onLeftParenthesis() {
+        
+    }
+    
+    mutating func onRightParenthesis() {
+        
     }
     
     mutating func onCalculate() {
@@ -148,40 +178,21 @@ struct CalculatorModel {
 //        inputs.removeAll()
         
         lastInput = inputNumber
-        print("Last Input: \(lastInput)")
-
         guard !isError else {
             return
         }
         
         print("Evaluating \(self.expression)")
-        let expression = Expression(self.expression)
+        let expr = self.expression.joined()
+            .replacingOccurrences(of: "×", with: "*")
+            .replacingOccurrences(of: "÷", with: "/")
+        let expression = Expression(expr)
         do {
             ans = try expression.evaluate()
             print("Answer: \(ans)")
         } catch {
             print("Failed to evaluate")
         }
-//        switch selectedOperator {
-//        case nil:
-//            ans = lastInput
-//        case .Plus:
-//            ans += lastInput
-//        case .Minus:
-//            ans -= lastInput
-//        case .Multiply:
-//            ans *= lastInput
-//        case .Divide:
-//            guard lastInput != 0 else {
-//                isError = true
-//                ans = 0
-//                lastInput = 0
-//                return
-//            }
-//            ans /= lastInput
-//        default:
-//            break
-//        }
     }
     
     mutating func onPlusMinus() {
@@ -194,8 +205,8 @@ struct CalculatorModel {
     }
     
     mutating func onPercentage() {
-        print("percentage")
-        lastInput = Double(inputs) ?? 0
+        // TODO Handle this being empty
+        lastInput = Double(self.expression.last!)!
         if isNegative {
             lastInput.negate()
         }
@@ -209,6 +220,8 @@ struct CalculatorModel {
         } else {
             ans /= 100
         }
+        self.expression[self.expression.endIndex-1] = String(ans)
+        print("Percentage: \(self.expression)")
     }
     
     mutating func onDelete() {

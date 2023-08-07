@@ -45,7 +45,7 @@ struct CalculatorView: View {
     // callback function when user clicks a button in control panel
     private func onControlPanelClick(_ keyType: ButtonType) -> Void {
         switch keyType {
-        case .Plus, .Minus, .Multiply, .Divide:
+        case .Plus, .Minus, .Multiply, .Divide, .LeftParenthesis, .RightParenthesis:
             calculator.onSelectOperator(keyType)
             currentExpression += "\(keyType.symbol)"
         case .Number0:
@@ -81,8 +81,8 @@ struct CalculatorView: View {
         case .Dot:
             calculator.onTypeDot()
             currentExpression += "\(keyType.symbol)"
-        case .Calculate:
-            calculator.onCalculate()
+        case .Equal:
+            calculator.onEqual()
         case .AC:
             calculator.onAC()
             currentExpression = ""
@@ -92,9 +92,9 @@ struct CalculatorView: View {
             calculator.onPercentage()
         case .Delete:
             calculator.onDeleteOperator()
-            currentExpression = calculator.expression
         }
         calculator.onCalculate()
+        currentExpression = calculator.expression.joined()
         currentDisplay = calculator.displayedValue
     }
     

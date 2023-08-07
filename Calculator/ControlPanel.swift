@@ -15,10 +15,10 @@ var buttonGapSize: CGFloat = (UIScreen.main.bounds.height > UIScreen.main.bounds
     (UIScreen.main.bounds.width / 50) :
     (UIScreen.main.bounds.height / 50)
 var buttonSize: CGFloat = (UIScreen.main.bounds.height > UIScreen.main.bounds.width) ?
-((UIScreen.main.bounds.width - 4 * buttonGapSize) / 4.5):
-((UIScreen.main.bounds.height - 4 * buttonGapSize) / 4.5)
+((UIScreen.main.bounds.width - 4 * buttonGapSize) / 5.25):
+((UIScreen.main.bounds.height - 4 * buttonGapSize) / 5.25)
 
-var controlPanelWidth = 4 * buttonSize + 3 * buttonGapSize
+var controlPanelWidth = 5 * buttonSize + 3 * buttonGapSize
 
 // add a initialiser by hex color
 // https://stackoverflow.com/a/56894458/12208834
@@ -65,7 +65,7 @@ struct ControlPanel: View {
         switch buttonType {
         case .Divide, .Multiply, .Minus, .Plus:
             self.selectedOperator = buttonType
-        case .Calculate:
+        case .Equal:
             self.selectedOperator = nil
         default:
             break
@@ -83,7 +83,8 @@ struct ControlPanel: View {
             HStack(spacing: buttonGapSize) {
                 CalculatorButton(text: "AC", BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.AC, selectedOperator: $selectedOperator, callback: onButtonClick)
                 CalculatorButton(image: Image(systemName: "plus.slash.minus"), BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.PlusMinus, selectedOperator: $selectedOperator, callback: onButtonClick)
-                CalculatorButton(text: "%", BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.Percentage, selectedOperator: $selectedOperator, callback: onButtonClick)
+                CalculatorButton(text: "(", BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.LeftParenthesis, selectedOperator: $selectedOperator, callback: onButtonClick)
+                CalculatorButton(text: ")", BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.RightParenthesis, selectedOperator: $selectedOperator, callback: onButtonClick)
                 CalculatorButton(image: Image(systemName: "divide"), BG: BGOrange, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Divide, selectedOperator: $selectedOperator, callback: onButtonClick)
             }
             HStack(spacing: buttonGapSize) {
@@ -105,16 +106,17 @@ struct ControlPanel: View {
                 CalculatorButton(image: Image(systemName: "plus"), BG: BGOrange, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Plus, selectedOperator: $selectedOperator, callback: onButtonClick)
             }
             HStack(spacing: buttonGapSize) {
-                CalculatorButton(text: "0", BG: BGDarkGray, FG: FGWhite, BGHover: BGHoverDarkGray, horizontalSpan: 2, operatorType: ButtonType.Number0, selectedOperator: $selectedOperator, callback: onButtonClick)
+                CalculatorButton(text: "0", BG: BGDarkGray, FG: FGWhite, BGHover: BGHoverDarkGray, operatorType: ButtonType.Number0, selectedOperator: $selectedOperator, callback: onButtonClick)
                 CalculatorButton(text: ".", BG: BGDarkGray, FG: FGWhite, BGHover: BGHoverDarkGray, operatorType: ButtonType.Dot, selectedOperator: $selectedOperator, callback: onButtonClick)
-                CalculatorButton(image: Image(systemName: "equal"), BG: BGOrange, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onButtonClick)
+                CalculatorButton(text: "%", BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.Percentage, selectedOperator: $selectedOperator, callback: onButtonClick)
+                CalculatorButton(image: Image(systemName: "equal"), BG: BGOrange, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Equal, selectedOperator: $selectedOperator, callback: onButtonClick)
             }
             HStack(spacing: buttonGapSize) {
                 //TODO this needs to be the settings button
-                CalculatorButton(image: Image(systemName: "gear"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+                CalculatorButton(image: Image(systemName: "gear"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Equal, selectedOperator: $selectedOperator, callback: onModalClick)
                 //TODO This needs to be the history button
-                CalculatorButton(image: Image(systemName: "clock.arrow.circlepath"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
-                CalculatorButton(image: Image(systemName: "ellipsis"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Calculate, selectedOperator: $selectedOperator, callback: onModalClick)
+                CalculatorButton(image: Image(systemName: "clock.arrow.circlepath"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Equal, selectedOperator: $selectedOperator, callback: onModalClick)
+                CalculatorButton(image: Image(systemName: "ellipsis"), BG: BGGray, FG: FGBlack, BGHover: BGHoverOrange, operatorType: ButtonType.Equal, selectedOperator: $selectedOperator, callback: onModalClick)
                 //TODO This needs to handle deleting
                 CalculatorButton(image: Image(systemName: "delete.backward"), BG: BGRed, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Delete, selectedOperator: $selectedOperator, callback: onButtonClick)
             }

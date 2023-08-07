@@ -25,34 +25,38 @@ enum ButtonType {
     case Number8
     case Number9
     case Dot
-    case Calculate
+    case Equal
     case AC
     case PlusMinus
     case Percentage
     case Delete
+    case LeftParenthesis
+    case RightParenthesis
     
     var symbol: String {
         switch self {
-            case .Plus: return "+"
-            case .Minus: return "-"
-            case .Multiply: return "*"
-            case .Divide: return "/"
-            case .Number0: return "0"
-            case .Number1: return "1"
-            case .Number2: return "2"
-            case .Number3: return "3"
-            case .Number4: return "4"
-            case .Number5: return "5"
-            case .Number6: return "6"
-            case .Number7: return "7"
-            case .Number8: return "8"
-            case .Number9: return "9"
-            case .Dot: return "."
-            case .Calculate: return "="
-            case .AC: return "AC"
-            case .PlusMinus: return "+/-"
-            case .Percentage: return "%"
-            case .Delete: return ""
+        case .Plus: return "+"
+        case .Minus: return "-"
+        case .Multiply: return "×"
+        case .Divide: return "÷"
+        case .Number0: return "0"
+        case .Number1: return "1"
+        case .Number2: return "2"
+        case .Number3: return "3"
+        case .Number4: return "4"
+        case .Number5: return "5"
+        case .Number6: return "6"
+        case .Number7: return "7"
+        case .Number8: return "8"
+        case .Number9: return "9"
+        case .Dot: return "."
+        case .Equal: return "="
+        case .AC: return "AC"
+        case .PlusMinus: return "+/-"
+        case .Percentage: return "%"
+        case .Delete: return ""
+        case .LeftParenthesis: return "("
+        case .RightParenthesis: return ")"
         }
     }
 }
@@ -95,23 +99,6 @@ struct CalculatorButton: View {
         }
     }
     
-    // computed bool that indicates if BG/FG color should be inverted
-    // if type is operator and is selected then it should invert
-    private var shouldInvertColor: Bool {
-        get {
-            switch operatorType {
-            case .Divide, .Multiply, .Plus, .Minus:
-                if selectedOperator == operatorType {
-                    return true
-                } else {
-                    return false
-                }
-            default:
-                return false
-            }
-        }
-    }
-    
     var body: some View {
         
         ZStack(alignment: .leading) {
@@ -120,8 +107,8 @@ struct CalculatorButton: View {
             Text("")
                 .cornerRadius(buttonSize / 2)
                 .frame(width: spannedWidth, height: buttonSize)
-                .background(shouldInvertColor ? FG : self.isTouching ? (BGHover ?? BG) : BG)
-                .animation(shouldInvertColor ? .spring() : self.isTouching ? nil : .spring())
+                .background(self.isTouching ? (BGHover ?? BG) : BG)
+                .animation(self.isTouching ? nil : .spring())
                 .cornerRadius(buttonSize / 2)
                 .gesture(
                     DragGesture(minimumDistance: 0)
@@ -148,7 +135,7 @@ struct CalculatorButton: View {
                         .scaledToFit()
                         .frame(width: buttonSize / 3, height: buttonSize / 3)
                         .padding(buttonSize / 3)
-                        .foregroundColor(shouldInvertColor ? BG : FG)
+                        .foregroundColor(FG)
                         .animation(.spring())
                     
                 } else {
@@ -157,7 +144,7 @@ struct CalculatorButton: View {
                         .font(.system(size: 500))
                         .minimumScaleFactor(0.01)
                         .padding(buttonSize / 4)
-                        .foregroundColor(shouldInvertColor ? BG : FG)
+                        .foregroundColor(FG)
                         .animation(.spring())
                 }
             }

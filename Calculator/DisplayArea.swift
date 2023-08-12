@@ -62,9 +62,12 @@ struct DisplayArea: View {
         .id(UUID.init())
         .frame(minHeight: 120)
         
-        Text(currentExpression)
-            .foregroundColor(Color.white)
-            .font(.system(size: fontSize / 3))
+        ScrollView(.horizontal, showsIndicators: false) {
+            Text(currentExpression)
+                .foregroundColor(Color.white)
+                .font(.system(size: fontSize / 3))
+        }
+        .frame(minHeight: 60)
     }
 }
 

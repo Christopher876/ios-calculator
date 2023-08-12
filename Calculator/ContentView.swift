@@ -44,6 +44,15 @@ struct CalculatorView: View {
         currentDisplay = calculator.displayedValue
     }
     
+    private func onVariableClick(_ variable: Variable) -> Void {
+        calculator.onTypeVariable(variable)
+        currentExpression += variable.name
+        
+        calculator.onCalculate()
+        currentExpression = calculator.expression.joined()
+        currentDisplay = calculator.displayedValue
+    }
+    
     // callback function when user clicks a button in control panel
     private func onControlPanelClick(_ keyType: ButtonType) -> Void {
         switch keyType {
@@ -128,7 +137,7 @@ struct CalculatorView: View {
                             })
                 )
                 Spacer()
-                ControlPanel(clickCallback: onControlPanelClick).padding(.bottom)
+                ControlPanel(clickCallback: onControlPanelClick, variableCallback: onVariableClick).padding(.bottom)
 //                Spacer()
             }
         }

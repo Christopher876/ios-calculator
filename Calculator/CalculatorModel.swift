@@ -9,8 +9,17 @@
 import Foundation
 import Expression
 
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
+
 struct CalculatorModel {
     public var expression: [String] = [String]()
+    public var variables: [Expression.Symbol: Expression.SymbolEvaluator] = [Expression.Symbol: Expression.SymbolEvaluator]()
     private var selectedOperator: ButtonType? = nil
     private var ans: Double = 0
     private var inputs: String =  ""
@@ -38,9 +47,7 @@ struct CalculatorModel {
     
     var displayedValue: String {
         get {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            return numberFormatter.string(from: NSNumber(value: ans)) ?? "0"
+            return decimalFormatter.string(from: NSNumber(value: ans)) ?? "0"
         }
     }
     
@@ -52,38 +59,26 @@ struct CalculatorModel {
     
     mutating func onTypeNumber(_ number: Int) {
         print("Input number", number)
-        if inputs.isEmpty {
-            inputs.append(String(number))
-        } else if inputs.count >= maxInput {
-            // discard any additional inputs if the pool is full
-            // allow one digit if the last input is a dot
-            if inputs.last == "." && inputs.count <= maxInput {
-                inputs.append(String(number))
-            }
-        } else {
-            inputs.append(String(number))
-        }
         if self.expression.count == 0 {
             self.expression.append(String(number))
         } else {
             self.expression[self.expression.endIndex-1] += String(number)
         }
-//        self.expression += String(number)
+    }
+    
+    mutating func onTypeVariable(_ variable: Variable) {
+        if self.expression.count == 0 {
+            self.expression.append(variable.name)
+        } else {
+            self.expression[self.expression.endIndex-1] += variable.name
+        }
+    }
+    
+    mutating func onSetVariable(_ variable: Variable) {
+        print("Setting \(variable.name) to \(variable.value)")
     }
     
     mutating func onTypeDot() {
-        print("dot typed")
-        guard !inputs.contains(".") else {
-            return
-        }
-        if inputs.count >= maxInput {
-            // discard if pool is full
-        } else if inputs.isEmpty {
-            inputs.append("0.")
-        } else {
-            inputs.append(".")
-        }
-        
         let last = self.expression.endIndex - 1
         if self.expression.count == 0 || self.expression[last] == "" {
             self.expression.append("0.")
@@ -93,7 +88,6 @@ struct CalculatorModel {
     }
     
     mutating func onAC() {
-        print("AC")
         self.ans = 0
         self.expression.removeAll()
         self.inputs.removeAll()
@@ -107,14 +101,12 @@ struct CalculatorModel {
         var last = self.expression.endIndex - 1
         if self.expression[last].count == 1 {
             let _ = self.expression.popLast()
-            print("Popped entire element")
         } else if self.expression[last] == "" {
-            self.expression.popLast()
-            self.expression.popLast()
+            let _ = self.expression.popLast()
+            let _ = self.expression.popLast()
         }
         else {
             let _ = self.expression[last].popLast()
-            print("Popped string")
         }
     }
     
@@ -126,8 +118,9 @@ struct CalculatorModel {
     }
     
     mutating func onEqual() {
+        let num = decimalFormatter.string(for: ans)
         self.expression.removeAll()
-        self.expression.append(NSNumber(value: ans).stringValue)
+        self.expression.append(NSNumber(value: ans.rounded(toPlaces: 5)).stringValue)
     }
     
     mutating func onCalculate() {
@@ -137,18 +130,18 @@ struct CalculatorModel {
         }
         
         isNegative = false
-//        inputs.removeAll()
-        
-        lastInput = inputNumber
-        guard !isError else {
-            return
-        }
         
         print("Evaluating \(self.expression)")
         let expr = self.expression.joined()
             .replacingOccurrences(of: "×", with: "*")
             .replacingOccurrences(of: "÷", with: "/")
-        let expression = Expression(expr)
+        
+//        var bar = 7.0 // variable
+//        var foo = 3.0
+//        self.variables[.variable("c")] = { _ in bar }
+//        self.variables[.variable("d")] = { _ in foo }
+        
+        let expression = Expression(expr, symbols: self.variables)
         do {
             ans = try expression.evaluate()
             print("Answer: \(ans)")
@@ -196,8 +189,7 @@ struct CalculatorModel {
     }
     
     mutating func onPaste(_ content: String) {
-        var parsedContent: Double? = Double(content)
-        print("Content: \(parsedContent)")
+        let parsedContent: Double? = Double(content)
         guard parsedContent != nil else {
             return
         }

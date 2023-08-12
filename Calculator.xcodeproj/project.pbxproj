@@ -21,6 +21,7 @@
 		14BF4D51245C5F460091F8F7 /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */; };
 		4BAC0DF02A800B7400AB8808 /* ModalCalcs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */; };
 		4BAC0DF72A804BF600AB8808 /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = 4BAC0DF62A804BF600AB8808 /* Expression */; };
+		4BAC0DF92A88060A00AB8808 /* VariableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC0DF82A88060A00AB8808 /* VariableButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		14BF4D4F245A6E190091F8F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
 		4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalCalcs.swift; sourceTree = "<group>"; };
+		4BAC0DF82A88060A00AB8808 /* VariableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				14BF4D462459562B0091F8F7 /* CalculatorButton.swift */,
 				14BF4D50245C5F460091F8F7 /* CalculatorModel.swift */,
 				4BAC0DEF2A800B7400AB8808 /* ModalCalcs.swift */,
+				4BAC0DF82A88060A00AB8808 /* VariableButton.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BAC0DF92A88060A00AB8808 /* VariableButton.swift in Sources */,
 				14BF4D4B245958020091F8F7 /* ControlPanel.swift in Sources */,
 				14B61F6F2454712300FDC5A2 /* AppDelegate.swift in Sources */,
 				14B61F712454712300FDC5A2 /* SceneDelegate.swift in Sources */,

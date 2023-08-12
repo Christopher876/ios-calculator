@@ -41,6 +41,7 @@ extension Color {
 
 struct ControlPanel: View {
     var clickCallback: ((ButtonType) -> Void)?
+    var variableCallback: ((Variable) -> Void)?
     
     // colours
     private let BGGray = Color(hex: 0xa5a5a5)
@@ -73,6 +74,10 @@ struct ControlPanel: View {
         self.clickCallback?(buttonType)
     }
     
+    private func onVariableClick(_ variable: Variable) -> Void {
+        self.variableCallback?(variable)
+    }
+    
     private func onModalClick(_ buttonType: ButtonType) -> Void {
         showModal = true
     }
@@ -80,6 +85,33 @@ struct ControlPanel: View {
     var body: some View {
         // here are a list of 5 rows of buttons, each row of button includes the specific buttons, and defines their symbol, colors and all of its properties
         VStack(spacing: buttonGapSize) {
+                HStack {
+                    CalculatorButton(image: Image(systemName: "plus"), BG: Color.green, FG: FGWhite, BGHover: BGHoverOrange, operatorType: ButtonType.Plus, selectedOperator: $selectedOperator, callback: onButtonClick)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0..<10) { index in
+                                let variableName = String(Character(UnicodeScalar(UInt8(98 + index))))
+                                let randomValue = Double.random(in: 0...100)
+                                
+                                VariableButton(variable: Variable(name: variableName, value: randomValue as NSNumber), callback: onVariableClick)
+                            }
+                        }
+                    }
+                    .mask(
+                        HStack(spacing: 0) {
+                            // Left gradient
+                            LinearGradient(gradient:
+                               Gradient(
+                                   colors: [Color.black.opacity(0), Color.black]),
+                                   startPoint: .leading, endPoint: .trailing
+                               )
+                               .frame(width: 10)
+                            // Middle -- This is for the content in the hstack
+                            Rectangle().fill(Color.black)
+                        }
+                     )
+                }
+            
             HStack(spacing: buttonGapSize) {
                 CalculatorButton(text: "AC", BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.AC, selectedOperator: $selectedOperator, callback: onButtonClick)
                 CalculatorButton(image: Image(systemName: "plus.slash.minus"), BG: BGGray, FG: FGBlack, BGHover: BGHoverGray, operatorType: ButtonType.PlusMinus, selectedOperator: $selectedOperator, callback: onButtonClick)
